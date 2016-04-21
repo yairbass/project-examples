@@ -7,8 +7,8 @@
     -->
     
     <!--Credentials for Artifactory-->
-    <ArtifactoryUserName>admindemo</ArtifactoryUserName>
-    <ArtifactoryPassword>aL1m1XjZZDKe</ArtifactoryPassword>
+    <ArtifactoryUserName>$(ARTIFACTORY_USER)</ArtifactoryUserName>
+    <ArtifactoryPassword>$(ARTIFACTORY_PASSWORD)</ArtifactoryPassword>
 
 
     <!-- Resolution-->
@@ -135,8 +135,8 @@
         If the build is not running under TFS, uncomment the two elements below. 
         The build name and number can be passed as build/environment variables.
     -->
-    <BuildName>MSbuild</BuildName>
-    <BuildNumber>4</BuildNumber>
+    <BuildName>$(BUILD_NAME)</BuildName>
+    <BuildNumber>$(BUILD_NUMBER)</BuildNumber>
     
     
     <!--Network Configuration-->
