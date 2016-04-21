@@ -1,6 +1,6 @@
 <Project ToolsVersion="4.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <pluginVersion>2.1.0</pluginVersion>
+    <pluginVersion>2.2.0</pluginVersion>
   </PropertyGroup>
   <Import Project="$(solutionDir)\.artifactory\Artifactory.build" Condition="'$(NuGetToolsPath)' == '' And Exists('$(solutionDir)\.artifactory\Artifactory.build')" />
   <PropertyGroup>
@@ -19,7 +19,7 @@
     <SkipParent Condition=" '$(SkipParent)' == '' ">false</SkipParent>
   </PropertyGroup>
   <PropertyGroup>
-    <NugetPackagesLocation>..\</NugetPackagesLocation>
+    <NugetPackagesLocation>$(solutionDir)</NugetPackagesLocation>
   </PropertyGroup>
   <UsingTask TaskName="JFrog.Artifactory.ArtifactoryBuild" AssemblyFile="$(NugetPackagesLocation)packages\Artifactory.$(pluginVersion)\lib\net45\JFrog.Artifactory.dll" />
   <Target Name="[Artifactory]" AfterTargets="Build">

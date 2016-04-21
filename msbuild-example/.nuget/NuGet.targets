@@ -110,4 +110,5 @@
     </Task>
   </UsingTask>
   <Import Project="$(solutionDir)\.artifactory\Resolve.targets" Condition="Exists('$(solutionDir)\.artifactory\Resolve.targets')" />
+  <Import Project="$(solutionDir)\.artifactory\Resolve.targets" Condition="Exists('$(solutionDir)\.artifactory\Resolve.targets')" />
 </Project>

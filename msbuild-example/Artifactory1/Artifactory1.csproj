@@ -4,19 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{439B963D-59BC-4BC3-A89E-0EAD2BD2D64E}</ProjectGuid>
+    <ProjectGuid>{9CAD74E7-637B-43DA-90FD-B9A61939043E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArtifactoryDemo.Services</RootNamespace>
-    <AssemblyName>ArtifactoryDemo.Services</AssemblyName>
+    <RootNamespace>ArtifactoryDeployer</RootNamespace>
+    <AssemblyName>ArtifactoryDeployer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK">
-      <HintPath>..\packages\AWSSDK.2.0.15.0\lib\net45\AWSSDK.dll</HintPath>
-    </Reference>
     <Reference Include="JFrog.Artifactory, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Artifactory.2.2.0\lib\net45\JFrog.Artifactory.dll</HintPath>
       <Private>True</Private>
@@ -64,14 +55,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Artifactory.2.2.0\lib\net45\Microsoft.Web.XmlTransform.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NuGet.Core, Version=2.8.50506.491, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Artifactory.2.2.0\lib\net45\NuGet.Core.dll</HintPath>
+      <HintPath>..\packages\NuGet.Core.2.8.2\lib\net40-Client\NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -83,14 +71,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArtifactoryDemo.DAL\ArtifactoryDemo.DAL.csproj">
+      <Project>{ba499fe8-f179-46d4-8c3d-21c52741444a}</Project>
+      <Name>ArtifactoryDemo.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArtifactoryDemo.Services\ArtifactoryDemo.Services.csproj">
+      <Project>{439b963d-59bc-4bc3-a89e-0ead2bd2d64e}</Project>
+      <Name>ArtifactoryDemo.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArtifactoryDemo.Web\ArtifactoryDemo.Web.csproj">
+      <Project>{ac55b5c8-bc95-45fe-b4dd-d1c1c973b274}</Project>
+      <Name>ArtifactoryDemo.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="Clean">
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build">
+  </Target>
+  <PropertyGroup>
+    <SkipParent>true</SkipParent>
+  </PropertyGroup>
+  <Import Project="$(solutionDir)\.artifactory\Deploy.targets" Condition="Exists('$(solutionDir)\.artifactory\Deploy.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
