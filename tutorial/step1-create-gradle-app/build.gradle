@@ -34,7 +34,7 @@ processResources {
 jar {
 	baseName = 'frogsws'
   manifest {
-    attributes 'Main-Class' : 'groovy.com.jfrog.FrogswsApplication'
+    attributes 'Main-Class' : 'FrogswsApplication'
   }
 }
 sourceCompatibility = 1.8
