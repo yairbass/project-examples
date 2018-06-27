@@ -11,6 +11,11 @@ body {
   margin-bottom: 1em;
 }
 
+.navbar-default h1 {
+  /*font-size: 20px;*/
+  color: white;
+}
+
 .navbar-default h2 {
   /*font-size: 20px;*/
   color: white;
