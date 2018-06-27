@@ -12,7 +12,7 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE")
 	}
 }
@@ -33,6 +33,9 @@ processResources {
 
 jar {
 	baseName = 'frogsws'
+  manifest {
+    attributes ‘Main-Class’ : ‘com.jfrog.FrogswsApplication’
+  }
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -50,7 +53,7 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.codehaus.groovy:groovy')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
