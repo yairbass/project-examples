@@ -3,7 +3,7 @@ FROM jfrog.local:5000/kmonkeyjam/nginx-java8
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
-RUN curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
+RUN curl --silent --location https://deb.nodesource.com/setup_8.x | sudo bash -
 RUN apt-get install --yes nodejs
 RUN apt-get install --yes build-essential
 RUN npm config set strict-ssl false
