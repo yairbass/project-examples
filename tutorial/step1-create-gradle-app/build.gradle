@@ -33,9 +33,6 @@ processResources {
 
 jar {
 	baseName = 'frogsws'
-  manifest {
-    attributes 'Main-Class' : 'com.jfrog.FrogswsApplication'
-  }
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
