@@ -27,7 +27,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /
+              path: /app
               port: {{ .Values.service.port }}
               scheme: HTTP
             initialDelaySeconds: 30
