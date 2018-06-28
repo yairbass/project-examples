@@ -24,7 +24,7 @@ service:
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
   type: LoadBalancer
-  port: 8181
+  port: 81
   nodePort: ""
 
 resources: {}
