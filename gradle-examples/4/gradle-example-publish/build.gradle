@@ -35,9 +35,11 @@ def javaProjects() {
 
 allprojects {
     apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'java'
+    apply plugin: 'maven'
     group = 'org.jfrog.test.gradle.publish'
     version = currentVersion
-    status = 'Integration'
+    status = 'release'
 }
 
 artifactoryPublish.skip = true
@@ -48,6 +50,7 @@ project('services') {
 
 configure(javaProjects()) {
     apply plugin: 'java'
+    apply plugin: 'maven'
     apply plugin: 'maven-publish'
 
     dependencies {
@@ -127,4 +130,7 @@ artifactory {
     resolve {
         repoKey = 'jcenter'
     }
+}
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.4'
 }
