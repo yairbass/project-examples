@@ -1,5 +1,5 @@
 FROM docker-virtual.jfrog.team/ubuntu:latest
-
+ 
 MAINTAINER Stanley Fong stanleyf@jfrog.com
 
 RUN /bin/bash -c cd ~; cd /home ; mkdir -p exec
