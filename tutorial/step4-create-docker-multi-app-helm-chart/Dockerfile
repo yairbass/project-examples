@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM jfrog.local:5000/kmonkeyjam/nginx-java8
+FROM docker-virtual.jfrog.team/kmonkeyjam/nginx-java8
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
