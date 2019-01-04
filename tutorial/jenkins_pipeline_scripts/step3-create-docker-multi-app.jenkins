@@ -103,7 +103,7 @@ node {
               ]
               def xrayResults = rtServer.xrayScan xrayConfig
               echo xrayResults as String
-              sleep 60
+              //sleep 60
          } else {
               println "No Xray scan performed. To enable set XRAY_SCAN = YES"
          }
