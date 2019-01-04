@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM docker-virtual.jfrog.team/nginx-java8:14.0.4
+FROM nginx-java8:14.0.4
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
