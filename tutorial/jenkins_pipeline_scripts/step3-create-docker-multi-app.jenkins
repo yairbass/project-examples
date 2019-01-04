@@ -22,7 +22,7 @@ node {
     }
 
     stage ('Clone') {
-        git url: 'https://github.com/jfrogtraining/project-examples.git', branch: 'eplus-orbitera'
+        git url: 'https://github.com/jfrogtraining/project-examples.git', branch: 'soleng-team-demo'
     }
 
     //Fetch all depedencies from Artifactory
