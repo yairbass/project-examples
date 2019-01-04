@@ -1,0 +1,60 @@
+#!/usr/bin/env groovy
+import groovy.json.JsonSlurper
+
+node {
+    def WATCHNAME = env.JOB_NAME
+    def jobName = env.JOB_NAME
+    def image_tag = getLatestDockerImage(SERVER_URL)
+    def repo = "helm-virtual"
+
+    stage('Clone') {
+        git url: 'https://github.com/jfrogtraining/project-examples.git', branch: 'soleng-team-demo'
+    }
+
+    stage('Build Chart & push it to Artifactory repo') {
+        /* Configure helm client to point to k8s cluster */
+         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+              sh "jfrog rt c beta --user ${USERNAME} --password ${PASSWORD} --url ${SERVER_URL} < /dev/null"
+         }
+
+         dir('tutorial/step4-create-docker-multi-app-helm-chart/helm') {
+            updateChartFile ()
+            sh "sed -i 's/latest/${image_tag}/g' docker-multi-app-chart/values.yaml"
+            sh "helm package ./docker-multi-app-chart/"
+            sh "jfrog rt u '*.${env.BUILD_NUMBER}.tgz' ${repo} --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
+            sh "jfrog rt bce ${env.JOB_NAME} ${env.BUILD_NUMBER} "
+            sh "jfrog rt dl docker-prod-local/docker-multi-app/${image_tag}/manifest.json --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta"
+            sh "jfrog rt bp ${env.JOB_NAME} ${env.BUILD_NUMBER} -server-id beta"
+         }
+    }
+
+}
+
+def updateChartFile () {
+    def BUILD_NUMBER = env.BUILD_NUMBER
+    sh 'sed -i "s/0.1.1/0.1.$BUILD_NUMBER/" ./docker-multi-app-chart/Chart.yaml'
+}
+
+def getLatestDockerImage (server_url) {
+
+   def aqlString = 'items.find ({ "repo":"docker-prod-local","type":"folder","$and":[{"path":{"$match":"docker-multi-app*"}},{"path":{"$nmatch":"docker-multi-app/latest"}}]}).include("path","created","name").sort({"$desc" : ["created"]}).limit(1)'
+
+   File aqlFile = File.createTempFile("dockerlatest", ".tmp")
+   aqlFile.deleteOnExit()
+
+   aqlFile << aqlString
+
+   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+       def getLatestChart = "curl -u$USERNAME:$PASSWORD -X POST " + SERVER_URL + "/api/search/aql -T " + aqlFile.getAbsolutePath()
+
+       try {
+             def helmchartinfo = getLatestChart.execute().text
+             def jsonSlurper = new JsonSlurper()
+             def latestChart = jsonSlurper.parseText("${helmchartinfo}")
+             return latestChart ? latestChart.results[0].name:"latest"
+        } catch (Exception e) {
+            println "Caught exception finding lastest docker-multi-app helm chart. Message ${e.message}"
+            throw e
+        }
+    }
+}
