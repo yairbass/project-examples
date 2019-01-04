@@ -1,0 +1,36 @@
+#!/usr/bin/env groovy
+
+node {
+
+  stage 'Cleanup'
+      cleanWs()
+
+  stage 'Clone'
+      git url: 'https://github.com/jfrogtraining/project-examples.git', branch: 'soleng-team-demo'
+
+  stage 'Dependencies'
+      dir ('./tutorial/step2-create-ui-pkg/'){
+          sh "curl -fL https://getcli.jfrog.io | sh"
+          sh "chmod +x jfrog"
+      }
+
+  stage 'Configure Artifactory'
+      dir ('./tutorial/step2-create-ui-pkg/'){
+          sh "./jfrog rt config --url $ARTIFACTORY_URL --user $ARTIFACTORY_USER --apikey $ARTIFACTORY_API_KEY"
+      }
+
+  stage 'Build'
+      dir ('./tutorial/step2-create-ui-pkg/'){
+          sh "npm install shelljs"
+          sh "./jfrog rt npm-install npm-dev-virtual --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER}"
+      }
+
+  stage 'Publish'
+      sh "./tutorial/step2-create-ui-pkg/jfrog rt bag ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+      sh "./tutorial/step2-create-ui-pkg/jfrog rt bce ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+      dir ('./tutorial/step2-create-ui-pkg/'){
+          sh "./jfrog rt npm-publish npm-dev-virtual --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER}"
+          sh "./jfrog rt bp ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+      }
+
+}
