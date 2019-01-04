@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM nginx-java8:14.0.4
+FROM kmonkeyjam/nginx-java8
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
