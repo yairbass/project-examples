@@ -11,20 +11,28 @@ node {
         git url: 'https://github.com/jfrogtraining/project-examples.git', branch: 'soleng-team-demo'
     }
 
-    stage('Build Chart & push it to Artifactory repo') {
-        /* Configure helm client to point to k8s cluster */
-         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-              sh "jfrog rt c beta --user ${USERNAME} --password ${PASSWORD} --url ${SERVER_URL} < /dev/null"
-         }
+    stage('Jfrog CLI') {
+      dir('tutorial/step4-create-docker-multi-app-helm-chart/helm') {
+        sh "curl -fL https://getcli.jfrog.io | sh"
+        sh "chmod +x jfrog"
+      }
+    }
 
+    stage('Build Chart & push it to Artifactory repo') {
          dir('tutorial/step4-create-docker-multi-app-helm-chart/helm') {
+           /* Configure helm client to point to k8s cluster */
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: CREDENTIALS, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            sh "./jfrog rt c beta --user ${USERNAME} --password ${PASSWORD} --url ${SERVER_URL} < /dev/null"
             updateChartFile ()
             sh "sed -i 's/latest/${image_tag}/g' docker-multi-app-chart/values.yaml"
+            //sh "helm init"
             sh "helm package ./docker-multi-app-chart/"
-            sh "jfrog rt u '*.${env.BUILD_NUMBER}.tgz' ${repo} --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
-            sh "jfrog rt bce ${env.JOB_NAME} ${env.BUILD_NUMBER} "
-            sh "jfrog rt dl docker-prod-local/docker-multi-app/${image_tag}/manifest.json --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta"
-            sh "jfrog rt bp ${env.JOB_NAME} ${env.BUILD_NUMBER} -server-id beta"
+            println "Package created: " + env.BUILD_NUMBER
+            sh "./jfrog rt u '*.${env.BUILD_NUMBER}.tgz' ${repo} --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
+            sh "./jfrog rt bce ${env.JOB_NAME} ${env.BUILD_NUMBER} "
+            sh "./jfrog rt dl docker-prod-local/docker-multi-app/${image_tag}/manifest.json --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta"
+            sh "./jfrog rt bp ${env.JOB_NAME} ${env.BUILD_NUMBER} -server-id beta"
+            }
          }
     }
 
