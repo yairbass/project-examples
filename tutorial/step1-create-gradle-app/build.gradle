@@ -1,6 +1,12 @@
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            url 'http://jfrog.local/artifactory/Bintray -&gt; jcenter'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
         
     }
     dependencies {
@@ -17,7 +23,7 @@ artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
-            repoKey = 'gradle-dev-local'
+            repoKey = 'team1-gradle-dev-us'
             username = "${artifactory_user}"
             password = "${artifactory_password}"
             maven = true
@@ -26,7 +32,7 @@ artifactory {
     }
     resolve {
         repository {
-            repoKey = 'gradle-dev'
+            repoKey = 'team1-gradle'
             username = "${artifactory_user}"
             password = "${artifactory_password}"
             maven = true
