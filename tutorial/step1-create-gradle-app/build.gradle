@@ -1,10 +1,10 @@
 buildscript {
     repositories {
         maven {
-            url '"${int_art_url}"/Bintray -&gt; jcenter'
+            url "${artifactory_contextUrl}/Bintray -&gt; jcenter"
             credentials {
-                username = "${int_art_user}"
-            password = "${int_art_password}"
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
             }
         }
         
@@ -20,12 +20,12 @@ allprojects {
 }
 
 artifactory {
-    contextUrl = "${int_art_url}"  //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
             repoKey = 'team1-gradle-dev-us'
-            username = "${int_art_user}"
-            password = "${int_art_password}"
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
             maven = true
             
         }
@@ -33,8 +33,8 @@ artifactory {
     resolve {
         repository {
             repoKey = 'team1-gradle'
-            username = "${int_art_user}"
-            password = "${int_art_password}"
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
             maven = true
             
         }
