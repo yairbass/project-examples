@@ -1,6 +1,6 @@
 version: 1
 type: gradle
-usePlugin: true
+usePlugin: false
 useWrapper: true
 resolver:
   repo: jcenter-gradle-remote
