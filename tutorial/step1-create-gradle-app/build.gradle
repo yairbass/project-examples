@@ -6,8 +6,8 @@ buildscript {
 		maven {
 			url System.getenv().artifactory_plugins_url
 			credentials {
-				username = System.getenv().artifactory_user
-				password = System.getenv().artifactory_password
+				username = System.getenv().int_art_user
+				password = System.getenv().int_art_apikey
 			}
 		}
 	}
@@ -41,8 +41,8 @@ repositories {
 	maven {
 		url System.getenv().artifactory_libs_url
 		credentials {
-			username = System.getenv().artifactory_user
-			password = System.getenv().artifactory_password
+			username = System.getenv().int_art_user
+			password = System.getenv().int_art_apikey
 		}
 	}
 }
