@@ -1,0 +1,10 @@
+{
+  "files": [
+    {
+      "pattern" : "*.jar",
+      "target": "./dockerArtifacts",
+      "build": "gradle_build/$run_number",
+      "sortBy" : ["[Optional]"]
+    }
+  ]
+}
