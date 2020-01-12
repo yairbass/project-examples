@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM jfrog-int-docker-open-docker.bintray.io/open-docker/nginx-java8:14.0.4
+FROM kmonkeyjam/nginx-java8
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
