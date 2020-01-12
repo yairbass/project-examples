@@ -2,7 +2,7 @@
   "files": [
     {
       "pattern" : "*.jar",
-      "target": "./dockerArtifacts",
+      "target": "./package",
       "build": "gradle_build/$run_number",
       "sortBy" : ["[Optional]"]
     }
