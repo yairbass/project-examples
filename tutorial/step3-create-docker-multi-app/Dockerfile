@@ -11,7 +11,7 @@ RUN npm install shelljs
 COPY package /usr/share/nginx/html/frogsui/
 RUN sed -i "s+http://localhost:9000/+/ws/+g" /usr/share/nginx/html/frogsui/app/app.js
 COPY frogsws-0.1.0-*.jar /ws/frogsws.jar
-#COPY wrapper.sh /wrapper.sh
+COPY wrapper.sh /wrapper.sh
 COPY ws.conf /etc/nginx/conf.d/ws.conf
 
 EXPOSE 81 9000
