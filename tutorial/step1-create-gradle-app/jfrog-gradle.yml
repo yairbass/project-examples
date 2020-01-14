@@ -7,5 +7,5 @@ resolver:
   serverID: artifactory
 deployer:
   repo: team1-gradle-dev-us
-  serverID: artofactory
+  serverID: artifactory
   deployMavenDescriptors: true
