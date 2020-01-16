@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM kmonkeyjam/nginx-java8
+FROM docker.bintray.io/jfrog/pipelines-u18java:0.9.0
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
