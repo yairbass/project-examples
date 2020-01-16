@@ -1,5 +1,5 @@
 # Environment integration Java8 + nginx
-FROM jfrog-int-docker-open-docker.bintray.io/open-docker/nginx-java8:14.0.4
+FROM docker.bintray.io/jfrog/pipelines-u16java:8
 # get the jar
 RUN apt-get update
 RUN apt-get install --yes curl
