@@ -1,6 +1,6 @@
 # Environment integration Java8 + nginx
 FROM docker.bintray.io/jfrog/pipelines-u18java:8
-ENV BUILD_NUMBER
+#ENV BUILD_NUMBER
 # get the jar
 RUN apt-get update
 
