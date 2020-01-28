@@ -1,18 +1,11 @@
 # Environment integration Java8 + nginx
-FROM docker.bintray.io/jfrog/pipelines-u18java:0.9.0
+FROM docker.bintray.io/jfrog/pipelines-u18java:8
+ENV BUILD_NUMBER
 # get the jar
 RUN apt-get update
-RUN apt-get install --yes curl
-RUN curl --silent --location https://deb.nodesource.com/setup_8.x | sudo bash -
-RUN apt-get install --yes nodejs
-RUN apt-get install --yes build-essential
-RUN npm config set strict-ssl false
-RUN npm install shelljs
-COPY package /usr/share/nginx/html/frogsui/
-RUN sed -i "s+http://localhost:9000/+/ws/+g" /usr/share/nginx/html/frogsui/app/app.js
-# COPY frogsws-0.1.0-*.jar /ws/frogsws.jar
+
+COPY gradle_results/*/frogsws-0.1.0-$BUILD_NUMBER.jar /ws/frogsws.jar
 COPY wrapper.sh /wrapper.sh
-COPY ws.conf /etc/nginx/conf.d/ws.conf
 
 EXPOSE 81 9000
 
