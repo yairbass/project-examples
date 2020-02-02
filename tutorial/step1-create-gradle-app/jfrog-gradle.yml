@@ -1,7 +1,7 @@
 version: 1
 type: gradle
 usePlugin: false
-useWrapper: false
+useWrapper: true
 resolver:
   repo: jcenter-gradle-remote
   serverID: artifactory
