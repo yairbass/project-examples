@@ -64,9 +64,7 @@ eclipse {
 	}
 }
 
-task wrapper(type: Wrapper) {
-	gradleVersion = '3.3gr'
-}
+
 
 String addBuildNumberFromCI(String version) {
 	def buildNumber = System.getenv().run_number
