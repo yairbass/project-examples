@@ -1,1 +1,6 @@
-rootProject.name="frogsws"
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'gradle-example'

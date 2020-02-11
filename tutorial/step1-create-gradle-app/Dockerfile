@@ -1,12 +1,15 @@
-# Environment integration Java8 + nginx
-FROM docker.bintray.io/jfrog/pipelines-u18java:8
-#ENV BUILD_NUMBER
-# get the jar
-RUN apt-get update
+FROM gradle:4.7.0-jdk8-alpine AS build
+COPY --chown=gradle:gradle ../../../../../Downloads/gradle-sample-app-master /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon 
 
-#COPY gradle_results/*/frogsws-0.1.0-$BUILD_NUMBER.jar /ws/frogsws.jar
-#COPY wrapper.sh /wrapper.sh
+FROM openjdk:8-jre-slim
 
-EXPOSE 81 9000
+EXPOSE 8080
 
-CMD ["/wrapper.sh"]
+RUN mkdir /app
+
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+

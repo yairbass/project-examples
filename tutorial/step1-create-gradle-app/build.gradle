@@ -1,74 +1,26 @@
-buildscript {
-	ext {
-        artifactory_url = System.getenv().int_artifactory_url
-        springBootVersion = '1.3.7.RELEASE'
-
-		
-	}
-	repositories {
-		maven {
-			url "${artifactory_url}/jcenter-gradle-remote"
-			credentials {
-				username = System.getenv().int_artifactory_user
-				password = System.getenv().int_artifactory_apikey
-			}
-		}
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE")
-	}
+plugins {
+	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'java'
 }
 
-apply plugin: 'groovy'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
 
-group = 'com.jfrog'
-version = addBuildNumberFromCI('0.1.0')
-
-processResources {
-	filesMatching("**/application.properties") {
-		expand version: version
-	}
-}
-
-jar {
-	baseName = 'frogsws'
-}
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+group = 'io.codefresh'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
-	maven {
-		url "${artifactory_url}/team1-gradle"
-		credentials {
-			username = System.getenv().int_artifactory_user
-			password = System.getenv().int_artifactory_apikey
-		}
-	}
+	mavenCentral()
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.codehaus.groovy:groovy')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+test {
+    useJUnit()
 
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '3.3'
-}
-
-String addBuildNumberFromCI(String version) {
-	def buildNumber = System.getenv().run_number
-	return buildNumber ? version + "-" + buildNumber : version
+    maxHeapSize = '1G'
 }
