@@ -65,7 +65,7 @@ eclipse {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '3.3gr'
+	gradleVersion = '3.3'
 }
 
 String addBuildNumberFromCI(String version) {
